@@ -178,6 +178,8 @@ end
     x = ComponentArray(b=1, a=2)
     @test merge(NamedTuple(), x) == NamedTuple(x)
     @test kw_fun(; x...) == 2
+
+    @test length(ViewAxis(2:7, ShapedAxis((2,3)))) == 6
 end
 
 @testset "Get" begin
@@ -387,6 +389,8 @@ end
         end
     end
 end
+
+
 
 @testset "Similar" begin
     @test similar(ca) isa typeof(ca)
