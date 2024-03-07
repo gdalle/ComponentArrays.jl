@@ -13,6 +13,8 @@ const NullComponentIndex{Idx} = ComponentIndex{Idx, NullAxis}
 
 Base.:(==)(ci1::ComponentIndex, ci2::ComponentIndex) = ci1.idx == ci2.idx && ci1.ax == ci2.ax
 
+Base.length(ci::ComponentIndex) = length(ci.idx)
+
 
 """
     KeepIndex(idx)

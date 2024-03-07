@@ -366,6 +366,12 @@ end
             @test ax[(:a, :c)] == ax[[:a, :c]] == ComponentArrays.ComponentIndex([1, 3, 4], Axis(a = 1, c = r2v(2:3)))
             ax2 = getaxes(ca2)[1]
             @test ax2[(:a, :c)] == ax2[[:a, :c]] == ComponentArrays.ComponentIndex([1, 3:8...], Axis(a = 1, c = ViewAxis(2:7, ShapedAxis((2,3)))))
+
+            @test length(ComponentArrays.ComponentIndex(1, ComponentArrays.NullAxis())) == 1
+            @test length(ComponentArrays.ComponentIndex(3:4, ShapedAxis(size(3:4)))) == 2
+            @test length(ComponentArrays.ComponentIndex(5:8, Axis(a = r2v(1:3), b = 4))) == 4
+            @test length(ComponentArrays.ComponentIndex([1, 3, 4], Axis(a = 1, c = r2v(2:3)))) == 3
+            @test length(ComponentArrays.ComponentIndex([1, 3:8...], Axis(a = 1, c = ViewAxis(2:7, ShapedAxis((2,3)))))) == 7
         end
 
         @testset "KeepIndex" begin
