@@ -67,10 +67,12 @@ example)
 struct ShapedAxis{Shape} <: AbstractAxis{nothing} end
 @inline ShapedAxis(Shape) = ShapedAxis{Shape}()
 # ShapedAxis(::Tuple{<:Int}) = FlatAxis()
+Base.length(::ShapedAxis{Shape}) where{Shape} = prod(Shape)
 
 struct Shaped1DAxis{Shape} <: AbstractAxis{nothing} end
 ShapedAxis(shape::Tuple{<:Int}) = Shaped1DAxis{shape}()
 Shaped1DAxis(shape::Tuple{<:Int}) = Shaped1DAxis{shape}()
+Base.length(::Shaped1DAxis{Shape}) where {Shape} = only(Shape)
 
 const Shape = ShapedAxis
 
@@ -185,7 +187,7 @@ function Base.getindex(ax::AbstractAxis, syms::Union{NTuple{N,Symbol}, <:Abstrac
     return ComponentIndex(vcat(inds...), new_ax)
 end
 
-_maybe_view_axis(inds, ax::Axis) = ViewAxis(inds, ax)
+_maybe_view_axis(inds, ax::AbstractAxis) = ViewAxis(inds, ax)
 _maybe_view_axis(inds, ::NullAxis) = inds[1]
 _maybe_view_axis(inds, ax::Union{ShapedAxis,Shaped1DAxis}) = ViewAxis(inds, ax)
 
@@ -201,6 +203,7 @@ _component_axis(ax) = FlatAxis()
 
 _array_axis(ax::CombinedAxis) = ax.array_axis
 _array_axis(ax) = ax
+_array_axis(ax::Int) = Shaped1DAxis((ax,))
 
 Base.first(ax::CombinedAxis) = first(_array_axis(ax))
 
