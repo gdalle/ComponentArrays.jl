@@ -2,6 +2,8 @@ using ComponentArrays
 using Documenter
 using Documenter.Remotes: GitHub
 
+DocMeta.setdocmeta!(ComponentArrays, :DocTestSetup, :(using ComponentArrays))
+
 makedocs(;
     modules=[ComponentArrays],
     format=Documenter.HTML(
