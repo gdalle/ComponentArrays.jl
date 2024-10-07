@@ -1,4 +1,6 @@
-using Documenter, ComponentArrays
+using ComponentArrays
+using Documenter
+using Documenter.Remotes: GitHub
 
 makedocs(;
     modules=[ComponentArrays],
@@ -17,7 +19,7 @@ makedocs(;
         ],
         "API" => "api.md",
     ],
-    repo="https://github.com/jonniedie/ComponentArrays.jl/blob/{commit}{path}#L{line}",
+    repo=GitHub("jonniedie/ComponentArrays.jl"),
     sitename="ComponentArrays.jl",
     authors="Jonnie Diegelman",
 )
