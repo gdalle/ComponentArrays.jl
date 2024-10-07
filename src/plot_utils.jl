@@ -26,7 +26,7 @@ julia> ComponentArrays.labels(x)
  "c.b[1,2]"
  "c.b[2,2]"
 ```
-see also `label2index`
+see also [`label2index`](@ref)
 """
 labels(x::ComponentVector) = map(x->x[firstindex(x)+1:end], _labels(x))
 labels(x) = map(x->x[firstindex(x):end], _labels(x))
@@ -80,7 +80,7 @@ julia> ComponentArrays.label2index(x, "b[1]")
  4
 ```
 
-see also `labels`
+see also [`labels`](@ref)
 """
 label2index(x::ComponentVector, str) = label2index(labels(x), str)
 function label2index(labs, str)
