@@ -45,7 +45,7 @@ julia> x[8]
 400.0
 
 julia> collect(x)
-10-element Array{Float64,1}:
+10-element Vector{Float64}:
    5.0
   20.0
    0.0
