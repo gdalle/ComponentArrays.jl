@@ -35,8 +35,8 @@ ComponentVector{Int64}(a = 0, b = [99, 1])
 We see that the `a` field changed but the `b` field didn't. When we did `ca[:b]`, it sliced into `ca`, thus creating a copy that would not update the original when we went to set the first element to `0`. On the other hand, since the update of the `a` field calls `setindex!` which updates in-place.
 
 If viewing, rather than slicing, is the desired behavior, use the `@view` macro or `view` function:
-```julia-repl
-julia> @view(ca[:b])[1] = 0
+```jldoctest views-v-slices
+julia> @view(ca[:b])[1] = 0;
 
 julia> ca
 ComponentVector{Int64}(a = 0, b = [0, 1])
