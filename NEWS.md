@@ -27,7 +27,7 @@ ComponentVector{Float64,SubArray...}(e = 2.0, f = [6.0, 30.0])
 
 ### v0.12.0
 - Multiple symbol indexing!
-  - Use either an `Array` or `Tuple` of `Symbol`s to extract multiple named components into a new `ComponentArray
+  - Use either an `Array` or `Tuple` of `Symbol`s to extract multiple named components into a new `ComponentArray`
   - It's fast!
 ```julia
 julia> ca = ComponentArray(a=5, b=[4, 1], c=(a=2, b=[6, 30.0]))
