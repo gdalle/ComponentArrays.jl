@@ -17,7 +17,7 @@ const VarAxes = Tuple{Vararg{AbstractAxis}}
 Gives named component access for `ComponentArray`s.
 # Examples
 
-```julia-repl
+```jldoctest
 julia> using ComponentArrays
 
 julia> ax = Axis((a = 1, b = ViewAxis(2:7, PartitionedAxis(2, (a = 1, b = 2))), c = ViewAxis(8:10, (a = 1, b = 2:3))));
