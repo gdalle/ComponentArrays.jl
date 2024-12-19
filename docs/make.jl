@@ -7,8 +7,8 @@ DocMeta.setdocmeta!(ComponentArrays, :DocTestSetup, :(using ComponentArrays))
 makedocs(;
     modules=[ComponentArrays],
     format=Documenter.HTML(
-        canonical="https://jonniedie.github.io/ComponentArrays.jl/stable",
-        ),
+        canonical="https://sciml.github.io/ComponentArrays.jl/stable",
+    ),
     pages=[
         "Home" => "index.md",
         "Quick Start" => "quickstart.md",
@@ -21,11 +21,11 @@ makedocs(;
         ],
         "API" => "api.md",
     ],
-    repo=GitHub("jonniedie/ComponentArrays.jl"),
+    repo=GitHub("SciML/ComponentArrays.jl"),
     sitename="ComponentArrays.jl",
     authors="Jonnie Diegelman",
 )
 
 deploydocs(;
-    repo="github.com/jonniedie/ComponentArrays.jl.git",
+    repo="github.com/SciML/ComponentArrays.jl.git",
 )

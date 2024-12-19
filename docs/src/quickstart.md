@@ -41,7 +41,7 @@ julia> ComponentVector(v; a=11, new=42)
 ComponentVector{Int64}(a = 11, b = 2, c = 3, new = 42)
 ```
 
-Higher dimensional `ComponentArray`s can be created too, but it's a little messy at the moment. The nice thing for modeling is that dimension expansion through broadcasted operations can create higher-dimensional `ComponentArray`s automatically, so Jacobian cache arrays that are created internally with `false .* x .* x'` will be `ComponentArray`s with proper axes. Check out the [ODE with Jacobian](https://github.com/jonniedie/ComponentArrays.jl/blob/master/examples/ODE_jac_example.jl) example in the examples folder to see how this looks in practice.
+Higher dimensional `ComponentArray`s can be created too, but it's a little messy at the moment. The nice thing for modeling is that dimension expansion through broadcasted operations can create higher-dimensional `ComponentArray`s automatically, so Jacobian cache arrays that are created internally with `false .* x .* x'` will be `ComponentArray`s with proper axes. Check out the [ODE with Jacobian](https://github.com/SciML/ComponentArrays.jl/blob/master/examples/ODE_jac_example.jl) example in the examples folder to see how this looks in practice.
 ```jldoctest quickstart
 julia> x2 = x .* x'
 7×7 ComponentMatrix{Float64} with axes Axis(a = 1, b = 2:4, c = ViewAxis(5:7, Axis(a = 1, b = 2:3))) × Axis(a = 1, b = 2:4, c = ViewAxis(5:7, Axis(a = 1, b = 2:3)))
