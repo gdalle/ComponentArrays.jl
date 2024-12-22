@@ -57,3 +57,7 @@ function LinearAlgebra.axpby!(α::Number, x::ComponentArray, β::Number, y::Comp
     axpby!(α, getdata(x), β, getdata(y))
     return ComponentArray(y, getaxes(y))
 end
+
+function LinearAlgebra.ldiv!(B::AbstractVecOrMat, D::Diagonal{Float64, <:ComponentArray}, A::AbstractVecOrMat)
+    ldiv!(B, Diagonal(Vector(D.diag)), A)
+end
