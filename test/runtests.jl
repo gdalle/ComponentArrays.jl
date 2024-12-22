@@ -536,6 +536,10 @@ end
     @test ldiv!(tempmat, lu(cmat + I), cmat) isa ComponentMatrix
     @test ldiv!(getdata(tempmat), lu(cmat + I), cmat) isa AbstractMatrix
 
+    c = (a=2, b=[1, 2]);
+    x = ComponentArray(a=5, b=[(a=20., b=3.0), (a=33., b=2.0), (a=44., b=3.0)], c=c)
+    @test ldiv!(rand(10),Diagonal(x), x) isa Vector
+
     vca2 = vcat(ca2', ca2')
     hca2 = hcat(ca2, ca2)
     temp = ComponentVector(q = 100, r = rand(3, 3, 3))
