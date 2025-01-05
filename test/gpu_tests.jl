@@ -11,7 +11,7 @@ jlca = ComponentArray(jla, Axis(a=1:2, b=3:4))
     @test getdata(map(identity, jlca)) isa JLArray
     @test all(==(0), map(-, jlca, jla))
     @test all(map(-, jlca, jlca) .== 0)
-    @test all(==(0), map(-, jla, jlca)) broken=(VERSION ≥ v"1.11-")
+    @test all(==(0), map(-, jla, jlca)) broken=(pkgversion(JLArrays.GPUArrays) ≥ v"11")
 
     @test any(==(1), jlca)
     @test count(>(2), jlca) == 2
