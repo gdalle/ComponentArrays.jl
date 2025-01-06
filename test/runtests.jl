@@ -732,3 +732,7 @@ end
 @testset "GPU" begin
     include("gpu_tests.jl")
 end
+
+@testset "Reactant" begin
+    include("reactant_tests.jl")
+end
