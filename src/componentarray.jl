@@ -59,6 +59,16 @@ function ComponentArray(data, ax::AbstractAxis...)
     return LazyArray(ComponentArray(x, axs...) for x in part_data)
 end
 
+function Adapt.adapt_structure(to, x::ComponentArray)
+    data = Adapt.adapt(to, getdata(x))
+    return ComponentArray(data, getaxes(x))
+end
+
+Adapt.adapt_storage(::Type{ComponentArray{T,N,A,Ax}}, xs::AT) where {T,N,A,Ax,AT<:AbstractArray} =
+    Adapt.adapt_storage(A, xs)
+
+Adapt.parent_type(::Type{ComponentArray{T,N,A,Ax}}) where {T,N,A,Ax} = A
+
 # Entry from NamedTuple, Dict, or kwargs
 ComponentArray{T}(nt::NamedTuple) where T = ComponentArray(make_carray_args(T, nt)...)
 ComponentArray{T}(::NamedTuple{(), Tuple{}}) where T = ComponentArray(T[], (FlatAxis(),))
@@ -71,6 +81,7 @@ ComponentArray(x::ComponentArray) = x
 ComponentArray{T}(x::ComponentArray) where {T} = T.(x)
 (CA::Type{<:ComponentArray{T,N,A,Ax}})(x::ComponentArray) where {T,N,A,Ax} = ComponentArray(T.(getdata(x)), getaxes(x))
 
+function fill_componentarray_ka! end # defined in extensions
 
 ## Some aliases
 """
@@ -89,6 +100,8 @@ ComponentVector{T}(;kwargs...) where {T} = ComponentArray{T}(;kwargs...)
 ComponentVector{T}(::UndefInitializer, ax) where {T} = ComponentArray{T}(undef, ax)
 ComponentVector(data::AbstractVector, ax) = ComponentArray(data, ax)
 ComponentVector(data::AbstractArray, ax) = throw(DimensionMismatch("A `ComponentVector` must be initialized with a 1-dimensional array. This array is $(ndims(data))-dimensional."))
+
+ConstructionBase.setproperties(x::ComponentVector, patch::NamedTuple) = ComponentVector(x; patch...)
 
 # Add new fields to component Vector
 function ComponentArray(x::ComponentVector; kwargs...)
@@ -321,17 +334,17 @@ directly on an `AbstractAxis`.
 
 # Examples
 
-```julia-repl
+```jldoctest
 julia> using ComponentArrays
 
 julia> ca = ComponentArray(a=1, b=[1,2,3], c=(a=4,))
 ComponentVector{Int64}(a = 1, b = [1, 2, 3], c = (a = 4))
 
 julia> [ca[k] for k in valkeys(ca)]
-3-element Array{Any,1}:
+3-element Vector{Any}:
  1
   [1, 2, 3]
-  ComponentVector{Int64,SubArray...}(a = 4)
+  ComponentVector{Int64}(a = 4)
 
 julia> sum(prod(ca[k]) for k in valkeys(ca))
 11
