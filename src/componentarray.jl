@@ -237,7 +237,6 @@ end
 # Reshape ComponentArrays with ShapedAxis axes
 maybe_reshape(data, ::NotShapedOrPartitionedAxis...) = data
 function maybe_reshape(data, axs::AbstractAxis...)
-    @show axs filter_by_type(ShapedAxis, axs...)
     shapes = filter_by_type(Union{ShapedAxis,Shaped1DAxis}, axs...) .|> size
     shapes = reduce((tup, s) -> (tup..., s...), shapes)
     return reshape(data, shapes)
