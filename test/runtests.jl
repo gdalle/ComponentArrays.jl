@@ -417,8 +417,6 @@ end
     end
 end
 
-
-
 @testset "Similar" begin
     @test similar(ca) isa typeof(ca)
     @test similar(ca2) isa typeof(ca2)
