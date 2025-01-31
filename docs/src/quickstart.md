@@ -44,7 +44,7 @@ ComponentVector{Int64}(a = 11, b = 2, c = 3, new = 42)
 Higher dimensional `ComponentArray`s can be created too, but it's a little messy at the moment. The nice thing for modeling is that dimension expansion through broadcasted operations can create higher-dimensional `ComponentArray`s automatically, so Jacobian cache arrays that are created internally with `false .* x .* x'` will be `ComponentArray`s with proper axes. Check out the [ODE with Jacobian](https://github.com/SciML/ComponentArrays.jl/blob/master/examples/ODE_jac_example.jl) example in the examples folder to see how this looks in practice.
 ```jldoctest quickstart
 julia> x2 = x .* x'
-7×7 ComponentMatrix{Float64} with axes Axis(a = 1, b = 2:4, c = ViewAxis(5:7, Axis(a = 1, b = 2:3))) × Axis(a = 1, b = 2:4, c = ViewAxis(5:7, Axis(a = 1, b = 2:3)))
+7×7 ComponentMatrix{Float64} with axes Axis(a = 1, b = ViewAxis(2:4, Shaped1DAxis((3,))), c = ViewAxis(5:7, Axis(a = 1, b = ViewAxis(2:3, Shaped1DAxis((2,)))))) × Axis(a = 1, b = ViewAxis(2:4, Shaped1DAxis((3,))), c = ViewAxis(5:7, Axis(a = 1, b = ViewAxis(2:3, Shaped1DAxis((2,))))))
    1.0    2.0    1.0     4.0     400.0    1.0    2.0
    2.0    4.0    2.0     8.0     800.0    2.0    4.0
    1.0    2.0    1.0     4.0     400.0    1.0    2.0
@@ -54,7 +54,7 @@ julia> x2 = x .* x'
    2.0    4.0    2.0     8.0     800.0    2.0    4.0
 
 julia> x2[:c,:c]
-3×3 ComponentMatrix{Float64} with axes Axis(a = 1, b = 2:3) × Axis(a = 1, b = 2:3)
+3×3 ComponentMatrix{Float64} with axes Axis(a = 1, b = ViewAxis(2:3, Shaped1DAxis((2,)))) × Axis(a = 1, b = ViewAxis(2:3, Shaped1DAxis((2,))))
  160000.0  400.0  800.0
     400.0    1.0    2.0
     800.0    2.0    4.0
@@ -66,7 +66,7 @@ julia> x2[:a,:c]
 ComponentVector{Float64}(a = 400.0, b = [1.0, 2.0])
 
 julia> x2[:b,:c]
-3×3 ComponentMatrix{Float64} with axes FlatAxis() × Axis(a = 1, b = 2:3)
+3×3 ComponentMatrix{Float64} with axes Shaped1DAxis((3,)) × Axis(a = 1, b = ViewAxis(2:3, Shaped1DAxis((2,))))
   800.0  2.0  4.0
   400.0  1.0  2.0
  1600.0  4.0  8.0

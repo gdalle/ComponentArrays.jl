@@ -92,7 +92,7 @@ ComponentVector{Int64}(b = [4, 1], c = (a = 2, b = [6, 30]))
 But what if our range doesn't capture a full component? We can see below that using `KeepIndex` on the first five elements returns a `ComponentVector` with those elements but only the `a` and `b` names, since the `c` component wasn't fully captured. 
 ```jldoctest indexing-label-retain
 julia> ca[KeepIndex(1:5)]
-5-element ComponentVector{Int64} with axis Axis(a = 1, b = 2:3):
+5-element ComponentVector{Int64} with axis Axis(a = 1, b = ViewAxis(2:3, Shaped1DAxis((2,)))):
  5
  4
  1
