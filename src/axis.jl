@@ -125,6 +125,8 @@ ViewAxis(Inds, IdxMap) = ViewAxis(Inds, Axis(IdxMap))
 ViewAxis(Inds) = Inds
 
 Base.length(ax::ViewAxis{Inds}) where Inds = length(Inds)
+# Fix https://github.com/Deltares/Ribasim/issues/2028
+Base.getindex(::ViewAxis{Inds, IdxMap, <:ComponentArrays.Shaped1DAxis}, idx::Integer) where {Inds,IdxMap} = Inds[idx]
 
 const View = ViewAxis
 const NullOrFlatView{Inds,IdxMap} = ViewAxis{Inds,IdxMap,<:NullorFlatAxis}

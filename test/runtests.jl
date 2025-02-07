@@ -851,6 +851,36 @@ end
         @test all(Xstack4_dcolon[:a, :, :] .== Xstack4_noca_dcolon[1, :, :])
         @test all(Xstack4_dcolon[:b, :, :] .== Xstack4_noca_dcolon[2:3, :, :])
     end
+
+    # Test fix https://github.com/Deltares/Ribasim/issues/2028
+    a = range(0.0, 1.0, length=0) |> collect
+    b = range(0.0, 1.0; length=2) |> collect
+    c = range(0.0, 1.0, length=3) |> collect
+    d = range(0.0, 1.0; length=0) |> collect
+    u = ComponentVector(a=a, b=b, c=c, d=d)
+
+    function get_state_index(
+        idx::Int,
+        ::ComponentVector{A, B, <:Tuple{<:Axis{NT}}},
+        component_name::Symbol
+    ) where {A, B, NT}
+        for (comp, range) in pairs(NT)
+            if comp == component_name
+                return range[idx]
+            end
+        end
+        return nothing
+    end
+
+    @test_throws BoundsError get_state_index(1, u, :a)
+    @test_throws BoundsError get_state_index(2, u, :a)
+    @test get_state_index(1, u, :b) == 1
+    @test get_state_index(2, u, :b) == 2
+    @test get_state_index(1, u, :c) == 3
+    @test get_state_index(2, u, :c) == 4
+    @test get_state_index(3, u, :c) == 5
+    @test_throws BoundsError get_state_index(1, u, :d)
+    @test_throws BoundsError get_state_index(2, u, :d)
 end
 
 @testset "axpy! / axpby!" begin
