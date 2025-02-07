@@ -881,6 +881,19 @@ end
     @test get_state_index(3, u, :c) == 5
     @test_throws BoundsError get_state_index(1, u, :d)
     @test_throws BoundsError get_state_index(2, u, :d)
+
+    # Must be a better way to make sure we can `Base.iterate` the `ViewAxis{UnitRange, Shaped1DAxis}`.
+    nt = ComponentArrays.indexmap(getaxes(u)[1])
+    for (i, idx) in enumerate(nt.a)
+    end
+    for (i, idx) in enumerate(nt.b)
+        @test idx == i
+    end
+    for (i, idx) in enumerate(nt.c)
+        @test idx == i + 2
+    end
+    for (i, idx) in enumerate(nt.d)
+    end
 end
 
 @testset "axpy! / axpby!" begin
